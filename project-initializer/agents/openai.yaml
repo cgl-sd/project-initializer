@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Initializer"
+  short_description: "Initialize flexible project structures"
+  default_prompt: "Use $project-initializer to initialize this project with numbered top-level folders and one root README."
