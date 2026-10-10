@@ -47,7 +47,7 @@ Retain framework module names and necessary build files. Integrate source/test p
 
 ### Git Conventions When Git Is Used
 
-Reuse an existing repository, branches, history, and identity settings. Check the default exclusions above and the staged diff. Use root-anchored `/docs/` and `/tmp/` patterns for these project directories. Ignore rules do not untrack existing files: if an excluded file is already tracked, report that fact and obtain authorization before changing its tracking state; preserve the local file and do not rewrite history. Commit relevant eligible task changes without including unrelated user changes. Do not force-add default-ignored local files merely to satisfy the commit requirement. When only ignored local files changed and no applicable record update is needed, report that no committable changes remain rather than creating an empty commit. Use Chinese commit messages for both project categories and follow additional user Git requirements. Do not create empty commits. Committing does not authorize pushing or creating a remote repository.
+Reuse an existing repository, branches, history, and identity settings. Check the default exclusions above and the staged diff. Use root-anchored `/docs/` and `/tmp/` patterns for these project directories. Ignore rules do not untrack existing files: if an excluded file is already tracked, report that fact and obtain authorization before changing its tracking state; preserve the local file and do not rewrite history. Commit relevant eligible task changes without including unrelated user changes. Do not force-add default-ignored local files merely to satisfy the commit requirement. When only ignored local files changed and no applicable record update is needed, report that no committable changes remain rather than creating an empty commit. Use English commit messages for both project categories and follow additional user Git requirements. Do not create empty commits. Committing does not authorize pushing or creating a remote repository.
 
 ## Software-Specific Requirements
 
@@ -57,7 +57,7 @@ Reuse an existing repository, branches, history, and identity settings. Check th
 - **Ongoing records:** update `AGENTS.md` for major constraints, `CHANGELOG.md` for significant changes and verification results, and `README.md` when structure, setup, or usage changes. Update the affected documents before the corresponding commit; do not repeat the same account in all three. Text/script projects require the initial root files but ongoing updates are optional unless requested.
 - **Native application verification:** apply the Android Studio/SwiftUI/Xcode requirements below before the end-of-conversation change commit and final response. The initial setup commit still precedes acceptance; explicit user overrides apply.
 
-In software `AGENTS.md`, persist the shared structure, test-location, root-document and default-ignore rules, plus Chinese commit messages, per-conversation commits, ongoing records, and applicable build/install/relaunch requirements. Do not impose these software-only obligations on text/script projects.
+In software `AGENTS.md`, persist the shared structure, test-location, root-document and default-ignore rules, plus English commit messages, per-conversation commits, ongoing records, and applicable build/install/relaunch requirements. Do not impose these software-only obligations on text/script projects.
 
 ## Android Studio and SwiftUI/Xcode Applications
 
