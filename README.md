@@ -1,80 +1,162 @@
-# Project Initializer
+# 项目初始化技能：Project Initializer
 
-[中文](#中文) | [English](#english)
+`project-initializer` 用于初始化或整理项目文件夹。它先区分文字／脚本项目和软件开发项目，再建立统一的基础文件，整理已有内容，并执行对应的 Git 和验证要求。
 
-<details id="中文" open>
-<summary>中文</summary>
-
-## 简介
-
-Project Initializer 是一个 Codex 技能，用来把项目文件夹整理成清晰、保守、可维护的结构。它适用于文献资料项目、研究笔记项目、代码/文档混合项目，以及需要同时保存参考资料、外部代码、讨论记录和工作区的项目。
-
-这个技能的核心原则是：先检查，再整理；保留用户内容；只创建当前项目真正需要的目录。
-
-## 仓库与 Skill 结构
-
-```text
-.
-├── README.md
-└── project-initializer/
-    ├── SKILL.md
-    └── agents/
-        └── openai.yaml
-```
-
-- `README.md`：GitHub 仓库说明，包含中文和英文两个可切换版本。
-- `project-initializer/`：真正的 skill 文件夹，文件夹名与 skill 名称一致。
-- `project-initializer/SKILL.md`：Project Initializer 技能定义和工作规则。
-- `project-initializer/agents/openai.yaml`：技能在 OpenAI/Codex 环境中的展示与默认提示配置。
-
-说明：按照 Codex skill 约束，skill 文件夹本体不放额外的 `README.md`、安装指南或变更日志等辅助文档。这个 README 只属于 GitHub 仓库根目录。
+用户的明确要求优先于技能默认规则，包括“不提交”“暂缓提交”以及保护指定文件的要求。整理时保留已有内容，不因初始化而自行删除文件。
 
 ## 使用方式
 
-将 `project-initializer/` 文件夹作为一个 Codex skill 安装或放入你的 Codex skills 目录后，可以在项目中请求：
+安装到 Codex skills 目录后，在目标项目中输入：
 
 ```text
-Use $project-initializer to initialize this project.
+请使用 $project-initializer 初始化这个项目。
 ```
 
-也可以直接用自然语言描述你的整理目标，例如：
+可以同时说明项目类型、现有文件和特殊要求，例如：
 
 ```text
-请用 project-initializer 整理这个项目，保留现有内容，并创建一个根 README。
+请使用 $project-initializer 初始化这个网页开发项目。
+已有源代码和开发指导文件，请保留内容，按标准结构整理。
 ```
 
-## 技能会做什么
+## 项目类型
 
-- 保留用户已有内容，除非用户明确要求删除。
-- 默认只保留一个项目自有的根 `README.md`。
-- 将顶层目录整理为两位数字前缀，例如 `00_reference/`、`01_external_code/`。
-- 将参考资料、外部代码、讨论记录、项目工具和工作区放到合适的位置。
-- 保留第三方代码、下载仓库或已创建技能内部自带的 README 文件。
+| 类型 | 常见项目 | 判断依据 |
+|---|---|---|
+| 文字／脚本项目 | 资料整理、笔记、报告、独立脚本、研究脚本、Notebook 实验 | 主要交付物是文字资料、脚本或实验结果 |
+| 软件开发项目 | App、网页、游戏等软件产品 | 主要交付物是软件产品 |
 
-## 默认目录模式
+不能仅因为存在代码，就把项目划为软件开发。例如，单独的数据处理脚本属于脚本项目；使用脚本语言开发的应用属于软件开发项目。混合项目以用户目标和主要交付物为准。
 
-技能会根据项目实际内容选择需要的目录，而不是强行创建完整模板：
+## 必须建立的基础文件
+
+两类项目都必须在根目录建立以下三个文档、一个 `.gitignore` 文件和三个目录；已有文件应保留并完善，目录即使暂时为空也需要建立。
 
 ```text
-00_reference/
-01_external_code/
-02_discussions/
-03_project_tools/
-04_workspace/
+项目根目录/
+├── README.md
+├── AGENTS.md
+├── CHANGELOG.md
+├── .gitignore
+├── tmp/
+├── docs/
+└── src/
 ```
 
-</details>
+| 文件或目录 | 用途 | 要求 |
+|---|---|---|
+| `README.md` | 项目说明 | 说明目标、实际目录结构和使用方法 |
+| `AGENTS.md` | 开发约束 | 记录项目类型、目录要求和适用的后续工作规则 |
+| `CHANGELOG.md` | 变更记录 | 建立变更记录入口；软件项目必须持续更新重要变更 |
+| `.gitignore` | 版本管理忽略规则 | 必须建立，默认忽略大体积文件、docs/ 内容、tmp/ 内测试与临时文件，以及缓存、构建输出和机器专属配置；保留普通源码与必要根目录文档的版本管理 |
+| `tmp/` | 测试文件 | 所有测试代码放在这里，必要时配置测试发现路径；默认仅保存在本地，不纳入 Git |
+| `docs/` | 文本指导文件 | 整理已有指导文件，保留内容并更新受影响的引用；默认仅保存在本地，不纳入 Git |
+| `src/` | 源文件 | 放置源代码或脚本，并保持工程配置可用 |
 
-<details id="english">
-<summary>English</summary>
+所有目录直接使用名称，不加数字前缀。可选目录仅在已有内容确实需要独立位置时创建，例如：
 
-## Overview
+- `reference/`：与项目指导文件不同的参考资料。
+- `external_code/`：需要独立保留的第三方参考仓库。
 
-Project Initializer is a Codex skill for organizing project folders into a clear, conservative, and maintainable structure. It is useful for literature projects, research notes, code/documentation projects, and mixed projects that need to preserve references, external code, discussion records, and active work.
+创建可选目录前，检查名称与用途是否和必需目录、已有目录重复，优先复用已有位置。可选目录不能替代 `tmp/`、`docs/`、`src/`，也不另建目录重复承载测试、指导文件或源文件。
 
-Its core principle is simple: inspect first, preserve user content, and create only the folders that the current project actually needs.
+### 文档创建范围
 
-## Repository And Skill Structure
+新建的项目说明、约束和变更文档统一放在根目录，不随意增加其他文档。未经用户主动要求，不在任何子目录内新建文档，包括子目录 README。
+
+`docs/` 用来收纳已有文本指导文件；将已有文件移入其中不属于新增文档，也不代表可以自动生成更多指导文件。第三方仓库、依赖包和已有 skill 内的原有文档应保留。
+
+### 框架工程与测试配置
+
+软件项目必须兼顾目录要求和框架标准，保留模块名称、构建配置和必要的工程文件。移动源文件或测试文件时，通过工程支持的配置方式更新路径，不能只移动文件而破坏构建。
+
+如果根目录 `src/` 的源文件要求与 Android／Xcode 等框架的现有布局发生无法直接兼容的冲突，应先说明具体问题，由用户决定结构调整方式。
+
+测试文件应保留在本机，默认随整个 `tmp/` 被 Git 忽略。忽略不代表删除，也不影响按配置运行本地测试。无需为了填充目录而编写测试。
+
+## 两类项目的不同要求
+
+| 要求 | 文字／脚本项目 | 软件开发项目 |
+|---|---|---|
+| 三个根目录文档、.gitignore 和三个必需目录 | 必须建立 | 必须建立 |
+| 现有指导文件整理到 `docs/` | 必须整理，重命名按需 | 必须整理并规范命名 |
+| 初始 Git 提交 | 视情况决定 | 初次建立项目文件后就提交，不等验收完成 |
+| 后续 Git 提交 | 视情况决定，不要求每次修改都提交 | 每次对话结束且产生项目修改后必须提交 |
+| 持续记录重要约束和变更 | 不强制，按用户需要执行 | 必须记录到三个根目录文档中 |
+| 修改后验证 | 不适用 | Android Studio／SwiftUI／Xcode 应用必须构建、运行本次产物并检查改动 |
+
+### 默认 Git 忽略范围
+
+两类项目的 `.gitignore` 默认忽略：
+
+- 大体积文件，例如项目中实际存在的大型数据集、归档包或生成产物。
+- 根目录 `docs/` 内的所有文件。
+- 根目录 `tmp/` 内的所有文件，包括测试代码、日志和截图。
+- 密钥、机器专属配置、缓存与构建输出。
+
+目录规则使用根路径，避免误匹配其他模块：
+
+```gitignore
+/docs/
+/tmp/
+```
+
+大文件根据实际文件路径或合适的产物类型配置；不擅自规定固定大小阈值，也不把所有二进制资源一概排除。`.gitignore` 本身不能按文件大小筛选。普通源文件、三个根目录文档及 `.gitignore` 默认保留版本管理，用户明确要求的例外优先。
+
+已被 Git 跟踪的文件不会因新增忽略规则而自动停止跟踪；发现这种情况应说明，未经授权不自行移出跟踪、不删除本地文件或改写历史。
+
+### Git 提交
+
+软件项目已有 Git 仓库时继续使用，没有时初始化。初始根目录文档、`.gitignore` 和必需目录建立后就进行项目建立提交，不等验收或剩余内容整理完成；先设置必要的忽略规则。后续整理、验证或修改产生的新变更，在对话结束前再提交。重复初始化时不重建已有仓库、不改写历史；没有变更时不创建空提交。
+
+两类项目只要使用 Git，提交信息都必须使用中文，并遵守用户的其他 Git 要求，例如：
+
+```text
+建立项目基础目录与开发约束
+调整界面布局并修复构建错误
+```
+
+提交前检查改动范围和忽略规则，排除密钥、机器专属配置、缓存与临时输出，保留无关的用户改动。用户明确要求“不提交”或“暂缓提交”时，以用户指令为准。
+
+默认忽略的本地文件不为满足提交要求而强制加入 Git。若只有这些文件发生变化，且无需更新重要变更记录，应说明没有可提交的变更，不制造空提交。
+
+Git 提交不等于推送到 GitHub。没有授权时，不自动推送，也不创建新的远端仓库。
+
+### Android Studio 与 SwiftUI／Xcode 的特殊要求
+
+这些要求按已有工程配置执行，不照搬其他应用的产品功能、具体目录层级、工具版本或设备型号。
+
+- **先检查本机环境。** 核对本机 IDE、JDK／编译工具、SDK、模拟器和依赖缓存，优先复用兼容的环境。明确缺失或不兼容后，仅获取必需组件，不自动下载可选源码、说明包或无关 SDK。遵守用户指定的 IDE 窗口和集成设备操作方式。
+- **保留工程配置。** Android 保留 Gradle Wrapper、模块、Manifest、资源与构建变体，移动源码或测试时同步调整 `sourceSets`。Xcode 核对工程／工作区、Target、Scheme、构建配置及源文件和资源的归属；已有 XcodeGen 等生成工具时，修改权威工程描述并按既有流程重新生成。
+- **保持兼容性和应用身份。** 不为修复错误而随意升级工具或依赖、提高最低系统版本，或更改应用标识、签名、权限与 entitlements。新 API 要符合当前最低系统版本；超出任务范围的兼容性或身份调整应先取得用户决定。
+- **保持代码和数据边界。** 沿用界面、业务规则、数据访问的分离，不把复杂业务或持久化逻辑堆入 Compose／SwiftUI 视图。测试数据与正式数据分开，不默认清空存储或卸载应用；涉及生成资源或本地服务时，检查相关既有流程。
+- **运行本次构建产物。** 修改后先编译，再向选定的模拟器／设备安装本次产物，终止旧应用进程并重新启动。优先使用用户已启动的合适设备；桌面 SwiftUI 应用则启动新构建的可执行文件。界面改动还需查看对应页面和交互，不能只看 Preview、同步结果或编译结果。
+- **分别记录验证结果。** 日志、验证截图等临时产物放入 `tmp/`，与需要保留的测试代码区分。构建、安装、启动和界面／行为检查分别报告；本次修改导致失败时修复并重验。环境、依赖、签名或设备阻塞时，明确未完成步骤，不把构建成功报告为运行验收通过。
+
+上述修改后验证应在后续变更提交和最终回复前完成；初始基础文件提交仍按前述规则先进行。用户明确的例外要求优先。
+
+### 持续记录
+
+软件项目的重要变化按职责写入三个根目录文档：
+
+- `README.md`：更新目录、配置和使用说明。
+- `AGENTS.md`：记录需要持续遵守的约束，包括目录、测试、默认忽略范围、提交和适用的构建／安装／重启要求，使后续对话能继续执行。
+- `CHANGELOG.md`：记录重要修改及相关验证结果。
+
+应在对应变更提交前更新受影响的文档，不把同一段记录重复写入三个文件。文字／脚本项目不强制持续更新这些记录。
+
+## 标准初始化流程
+
+1. **检查现状并分类。** 查看已有文件、项目要求、框架配置和 Git 状态，确定项目类别以及需保护的内容。
+2. **建立基础文件。** 创建或完善三个根目录文档和 `.gitignore`，建立 `tmp/`、`docs/`、`src/`。软件项目在此阶段完成初始中文 Git 提交；文字／脚本项目视情况执行，用户明确的暂缓提交指令优先。
+3. **整理并验证。** 将已有内容放入对应位置，更新引用和源文件／测试配置；检查内容完整、目录用途不重复、文档范围和工程配置正确。原生应用修改后构建、安装并重启本次产物，检查相关页面或行为。
+4. **收尾并记录。** 软件项目更新相关记录，在对话结束前提交剩余变更；报告改动、检查结果、未完成项和 Git 状态。
+
+Git 不跟踪空目录，因此“本机已创建目录”与“目录内容已进入提交”需要分别说明，不为保留空目录而添加多余文档。
+
+代码解压、删除压缩包、使用某个指定 IDE 等属于具体项目的额外要求，不是所有项目的通用初始化步骤。
+
+## 本仓库结构
 
 ```text
 .
@@ -85,45 +167,6 @@ Its core principle is simple: inspect first, preserve user content, and create o
         └── openai.yaml
 ```
 
-- `README.md`: GitHub repository documentation with switchable Chinese and English versions.
-- `project-initializer/`: The actual skill folder. Its folder name matches the skill name.
-- `project-initializer/SKILL.md`: The Project Initializer skill definition and workflow rules.
-- `project-initializer/agents/openai.yaml`: Display metadata and the default prompt for OpenAI/Codex environments.
+本文件是 skill 仓库的中文使用说明。`project-initializer/SKILL.md` 是技能执行规则，`agents/openai.yaml` 是展示信息和默认提示。安装时使用整个 `project-initializer/` 文件夹。
 
-Note: Codex skill constraints keep auxiliary documentation such as `README.md`, installation guides, and changelogs out of the skill folder itself. This README belongs only to the GitHub repository root.
-
-## Usage
-
-After installing the `project-initializer/` folder as a Codex skill, or placing it in your Codex skills directory, ask Codex to use it:
-
-```text
-Use $project-initializer to initialize this project.
-```
-
-You can also describe the desired organization in natural language, for example:
-
-```text
-Use project-initializer to organize this project, preserve existing content, and create one root README.
-```
-
-## What The Skill Does
-
-- Preserves existing user content unless deletion is explicitly requested.
-- Keeps one project-authored root `README.md` by default.
-- Organizes top-level directories with two-digit prefixes, such as `00_reference/` and `01_external_code/`.
-- Places reference materials, external code, discussion records, project tools, and workspace files in suitable locations.
-- Preserves README files that belong to third-party code, downloaded repositories, or created skills.
-
-## Default Directory Pattern
-
-The skill creates only the directories that are useful for the current project instead of forcing a full template:
-
-```text
-00_reference/
-01_external_code/
-02_discussions/
-03_project_tools/
-04_workspace/
-```
-
-</details>
+上述项目初始化目录是技能用于目标项目的规则，不要求把 skill 包本身改造成该目录结构。

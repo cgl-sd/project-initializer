@@ -1,4 +1,4 @@
 interface:
   display_name: "Project Initializer"
-  short_description: "Initialize flexible project structures"
-  default_prompt: "Use $project-initializer to initialize this project with numbered top-level folders and one root README."
+  short_description: "Initialize text, script, and software projects"
+  default_prompt: "Use $project-initializer to classify and initialize this project with three root documents, a root .gitignore, tmp/docs/src directories, and the applicable Git and verification rules."
